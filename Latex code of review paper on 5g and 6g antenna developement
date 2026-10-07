@@ -1,0 +1,334 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\begin{document}
+
+\title{Recent Advances in Antennas for 6G Wireless Communications: A Comprehensive Review}
+
+\author{
+\IEEEauthorblockN{Mohammed Nadeem Nadaf, Saiprasad Biradar}
+\IEEEauthorblockA{Department of Electronics and Communication Engineering\\
+CMR University, Bengaluru, India\\
+nadeemnadaf0000@gmail.com, saiprasadbiradar467@gmail.com}
+\and
+\IEEEauthorblockN{Under the Guidance of Dr. Prachi Gupta, Professor}
+\IEEEauthorblockA{Department of Electronics and Communication Engineering\\
+CMR University, Bengaluru, India}
+}
+\maketitle
+
+\begin{abstract}
+The shift from fifth-generation (5G) to sixth generation (6G) wireless networks places strict demands on antennas: extreme data rates, sub-millisecond latency, massive device density, and centimetre-level sensing accuracy that classical antennas cannot satisfy. This paper reviews antenna architectures proposed for beyond-5G and 6G systems, including massive multiple-input multiple-output (MIMO) , millimetre-wave (mmWave) phased arrays, sub terahertz (sub THz) and terahertz (THz) antennas, frequency, polarization, and pattern reconfigurable antennas, dielectric resonator antennas (DRAs), antenna-in-package (AiP) modules, reconfigurable intelligent surfaces (RIS), dynamic metasurface and holographic MIMO antennas, and fluid antenna systems (FAS). For each technology, the governing electromagnetic principles are summarized alongside quantitative performance figures, gain, bandwidth, element count, and switching or reconfiguration speed, drawn from 15 recently published peer reviewed antenna designs and compared directly in a dedicated table. The paper also analyzes open engineering bottlenecks, including propagation loss, mutual coupling, phase quantization error, thermal budget, fabrication tolerance, and control channel overhead, and outlines research directions toward AI assisted, highly integrated, and dynamically reconfigurable 6G antenna platforms.
+
+
+\end{abstract}
+
+\begin{IEEEkeywords}
+6G, beyond-5G, antenna technology, massive MIMO, millimetre wave, sub-THz, terahertz, reconfigurable antenna, dielectric resonator antenna, antenna-in-package, metasurface, RIS, fluid antenna system
+\end{IEEEkeywords}
+
+\section{Introduction}
+Wireless communication has progressed significantly from early cellular systems to 5G, which offers enhanced mobile broadband, massive machine type communication, and ultra reliable low latency communication. However, future applications like extended reality and autonomous systems are expected to require capabilities beyond current 5G networks. \cite{ref1,ref2,ref3}.
+
+
+6G is being explored as the next major step in cellular technology, with goals like 1 Tb/s peak data rates, sub millisecond latency, and support for over $10^7$ devices/km². Hitting those targets will require major advances in network design, signal processing, RF circuits, and especially antenna technology, which is the physical link between the transceiver and the radio channel.\cite{ref35,ref36,ref37}. 
+
+Antennas determine important characteristics of a wireless system including gain $G$, radiation efficiency $\eta$, half power beamwidth, polarization purity, spectral efficiency, and the number of independent spatial streams available for multiplexing. The Friis transmission equation,
+\begin{equation}
+\frac{P_r}{P_t} = G_t G_r \left(\frac{\lambda}{4\pi d}\right)^2,
+\label{eq:friis}
+\end{equation}
+shows directly why the transition toward millimetre-wave (mmWave, 24--100~GHz) and sub terahertz (sub THz, 100-300~GHz) frequencies is double edged: the much shorter wavelength $\lambda$ permits dense packing of high gain array elements within a compact aperture, but the same equation shows received power falling as $\lambda^2$, so free space path loss increases by roughly 20~dB per decade of frequency before atmospheric absorption and blockage are even considered \cite{ref6,ref7}.
+
+More recently, reconfigurable antennas, reconfigurable intelligent surfaces (RIS), dynamic metasurface antennas, holographic MIMO surfaces, and fluid antenna systems (FAS) have drawn significant attention as potential physical layer enablers for 6G. \cite{ref41,ref42,ref43}.
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{7.png}
+    \caption{Overview of major antenna technologies considered for beyond-5G and 6G wireless communication. Adapted from \cite{ref60}.}
+    \label{fig:6g_landscape}
+\end{figure}
+
+\section{Antenna Requirements for 6G}
+Future 6G systems will require highly versatile antenna solutions that simultaneously operate across broad ranges of frequencies, bandwidths, beam directions, and form factors. Key antenna requirements include high gain to close the mmWave/THz link budget, wide instantaneous bandwidth for multi gigabit throughput, a low profile design for integration into handsets and vehicles, high radiation efficiency to preserve battery and RF front end power, electronic beam steering and reconfigurability for dynamic environments, and dense spatial multiplexing to scale capacity \cite{ref15,ref17}.
+
+Millimetre wave and sub terahertz frequencies provide much larger absolute bandwidths than traditional sub 6 GHz cellular bands. For instance, the availability of both unlicensed and licensed spectrum at 60 GHz and 140 GHz provides hundreds of MHz of tightly spaced spectrums while, in contrast, below 6 GHz only tens of MHz are available on average. However, these higher frequencies also bring proportionally greater free space path loss, oxygen/water vapour absorption, and non line of sight blockage. As a result, high gain arrays with adaptive, low latency beamforming are not optional refinements but essential system components at these bands. Table~\ref{tab:requirements} summarizes the resulting antenna requirements.
+
+\begin{table}[!t]
+\caption{Important Antenna Requirements for 6G}
+\label{tab:requirements}
+\centering
+\begin{tabular}{p{2.3cm}p{5.3cm}}
+\hline
+\textbf{Requirement} & \textbf{Purpose} \\
+\hline
+Wide bandwidth & Supports multi-Gb/s data rates required by eMBB and holographic-communication use cases \\
+High gain & Compensates for the $\lambda^2$ path-loss penalty at mmWave/THz frequencies (Friis equation) \\
+Beam steering & Enables directional, interference-limited communication and tracking of mobile users \\
+Low profile & Required for conformal integration into handsets, vehicles, and wearable devices \\
+Reconfigurability & Provides adaptive frequency/polarization/pattern operation without hardware duplication \\
+High efficiency & Minimizes DC power draw of RF chains and battery drain in user equipment \\
+Large arrays / ELAA & Enables spatial multiplexing, near-field beamfocusing, and massive connectivity \\
+Dense integration & Reduces system size via antenna-in-package (AiP) and system-on-chip co-design \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Massive MIMO Antennas}
+Massive MIMO employs a large number $N$ of antenna elements at the base station to serve multiple users simultaneously over the same time-frequency resource. As $N$ grows, channel vectors to spatially separated users become asymptotically orthogonal, so that with matched-filter or zero-forcing precoding, inter-user interference and small-scale fading effects average out --- the theoretical basis first established by Marzetta \cite{ref8} and extended in \cite{ref9,ref10,ref11}.
+
+In practice, scaling $N$ introduces mutual coupling between closely spaced elements, RF chain cost and DC power that scale linearly with $N$, phase to amplitude calibration error across the array, and increased physical footprint. Hybrid analog digital beamforming addresses the RF chain problem by connecting a small number $N_{RF} \ll N$ of RF chains to the full array through an analog phase shifting network, factorizing the digital precoder $\mathbf{F}_{BB}$ and the analog precoder $\mathbf{F}_{RF}$ so that the effective precoder $\mathbf{F} = \mathbf{F}_{RF}\mathbf{F}_{BB}$ approximates the fully digital optimum at a fraction of the hardware cost \cite{ref12,ref13}.
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{2.png}
+    \caption{Fabricated 16-port, 64-element massive MIMO antenna array using DNG/ENG metamaterial decoupling for 5G mm-wave applications. Reproduced from \cite{ref44}, an open-access article distributed under the CC~BY~4.0 licence.}
+    \label{fig:mimo}
+\end{figure}
+
+Recent implementations demonstrate the practical trade offs involved. A 16 port, 64 element massive MIMO array using double negative to epsilon-negative (DNG/ENG) metamaterial decoupling structures achieves 20~dBi peak gain, 99\% radiation efficiency and better than 25~dB port isolation over 25.5--29~GHz for mmWave 5G/6G base station use \cite{ref44}. A different 64-element planar microstrip array using a two pronged fork radiating element reaches a considerably higher 21.2~dBi boresight gain at 37.2~GHz, illustrating that array level gain in the low-20~dBi range is now routinely achievable for base station class massive MIMO once mutual coupling is controlled through decoupling or metasurface loading \cite{ref45}. \cite{ref45}. 
+
+\section{Millimetre-Wave Antennas}
+Millimetre wave communication (24-100~GHz) is a cornerstone technology for 5G and future 6G systems because it provides access to substantially wider bandwidth than conventional cellular bands \cite{ref6}.
+Beamforming is essential at mmWave because free space path loss at 28~GHz is roughly 20~dB higher than at 2.4~GHz over the same distance, and mmWave links are additionally sensitive to human body and foliage blockage. Hybrid beamforming, combining a modest number of RF chains with a large analog phased array, is the dominant architecture for reducing power consumption and ADC/DAC cost while retaining most of the achievable beamforming gain \cite{ref13,ref14}.
+
+Representative implementations quantify these trade offs. A 4 element mmWave MIMO array on 0.254~mm Rogers RT5880 substrate operating at 37~GHz raises the single-element gain of 6.84~dB to 12.8~dB through array combining while maintaining envelope correlation coefficient (ECC) within the 5G MIMO diversity threshold and radiation efficiency above 85\% \cite{ref46}. Scaling the same design philosophy to a 64 element base station array yields 21.2~dBi gain at 37.2~GHz, while a $4\times8$ wideband array reported for 5G n78 base stations achieves a maximum realized gain near 22~dBi with 8 independently steerable beams in azimuth \cite{ref45}.
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{3.png}
+    \caption{Element and array layout ($8\times8$, $8\times16$, $8\times32$ configurations) of the mm-wave base-station antenna array achieving 21.2~dBi boresight gain at 37.2~GHz. Reproduced from \cite{ref45}, an open-access article distributed under the CC~BY~4.0 licence.}
+    \label{fig:mmwave}
+\end{figure}
+
+\section{Sub-THz and Terahertz Antennas}
+Sub-terahertz (100--300~GHz) and terahertz (0.3--10~THz) communication are promising technologies for achieving multi tens of Gb/s to Tb/s data rates in 6G. \cite{ref15,ref16,ref38,ref39,ref40}. At these frequencies molecular absorption principally by atmospheric oxygen and water vapour creates narrow low loss transmission windows separated by high attenuation bands, so THz link budgets must be planned around these windows rather than treated as uniformly available spectrum \cite{ref17,ref18}.
+
+Because wavelength shrinks to below 1~mm, THz antennas can integrate very large element counts in a chip scale footprint, but conductor loss, surface roughness, and dielectric loss tangent all increase relative to their electrical size, so radiation efficiency becomes the dominant design constraint rather than mutual coupling. Two complementary design philosophies dominate the literature: quasi optical resonant cavity antennas that maximize gain through constructive multiple reflection, and planar array antennas (microstrip, substrate integrated waveguide (SIW), or grounded coplanar waveguide (GCPW) fed) that maximize integration density.
+
+A fully metallic Fabry Perot cavity (FPC) antenna operating at 300~GHz, built from seven laser cut brass layers with an aperture frequency selective surface (FSS) partially reflective layer, achieves a measured 17.7~dBi peak gain at 289~GHz with gain above 14.4~dBi sustained from 285--310~GHz and a 22~GHz (282--304~GHz) impedance bandwidth, in a compact $2.6\,\text{mm}\times2.6\,\text{mm}$ footprint --- demonstrating that quasi optical cavity structures can deliver base station class gain at sub THz frequencies without active elements \cite{ref47}. A complementary GCPW fed, SIW backed three layer planar array operating at 0.6366~THz achieves a 13.14~dBi peak gain with a 0.61-0.68~THz ($\approx$70~GHz) impedance bandwidth using a metal fence structure to suppress inter patch coupling, illustrating the planar array route to true THz-band (rather than sub THz) operation \cite{ref48}.
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{4.png}
+    \caption{Layered structure of the fully metallic Fabry--Perot cavity antenna achieving 17.7~dBi gain at 300~GHz. Reproduced from \cite{ref47}, an open-access article distributed under the CC~BY~4.0 licence.}
+    \label{fig:thz}
+\end{figure}
+
+\section{Reconfigurable Antennas}
+Reconfigurable antennas can dynamically modify frequency, radiation pattern, or polarization by electronically altering the current distribution on the radiating structure, typically using PIN diodes, varactor diodes, RF MEMS switches, or liquid-crystal/liquid-metal tuning elements connected across gaps or stubs in the patch or slot geometry. Switching a PIN diode between forward-biased (low impedance, ON) and reverse biased (high impedance, OFF) states effectively lengthens or shortens the resonant current path, shifting the resonant frequency $f_r \propto 1/L_{eff}$ according to the modified effective electrical length $L_{eff}$ of the radiator \cite{ref30,ref31}.
+
+A five mode, nine band frequency reconfigurable monopole using four PIN diodes on FR 4 substrate covers single bands at 3.5/5~GHz, dual bands at 2.1/5.6~GHz and 2.6/6.5~GHz, and a triple band at 1.8/4.8/6.4~GHz, with VSWR below 1.5 across all modes, 84\% radiation efficiency, and gain from 1.2-3.6~dBi, confirming that PIN diode switching networks can realistically reconfigure across nine distinct operating bands from a single compact aperture \cite{ref59}. At millimetre wave frequencies, an 8-mode, three PIN diode patch antenna switches between mid 5G bands and high 5G bands from a single $20\,\text{mm}\times25\,\text{mm}$ FR 4 aperture, with radiation efficiency of 75-98\% across modes demonstrating that a single reconfigurable radiator can bridge sub 6~GHz and mmWave 5G/6G operation, eliminating the need for separate antenna subsystems per band.
+
+Switching losses in the diode's ON state series resistance, DC bias network radiation leakage that distorts the pattern, non linear diode behaviour under high RF power, and increased fabrication complexity from the added switching and biasing circuitry remain the principal engineering costs of reconfigurability, and typically explain why reconfigurable antenna gain (a few dBi) trails purpose built fixed frequency array gain (10+~dBi) at a given frequency.
+
+\section{Dielectric Resonator Antennas}
+Dielectric resonator antennas (DRAs) radiate from resonant modes excited within a low loss, high permittivity ceramic or polymer volume rather than from surface current on a metal patch, so unlike microstrip antennas they exhibit no conductor loss and typically achieve radiation efficiency exceeding 90\% even at millimetre wave frequencies where metallic loss becomes severe. DRAs support multiple resonant modes (e.g., TE, TM, and hybrid HEM modes) simultaneously, giving inherent flexibility for wideband or multiband operation and for MIMO/array configurations without additional radiating structures \cite{ref28,ref29}.
+
+A DRA exciting the higher order TE$_{\delta 15x}$ mode with a hollow central cylinder to lower the quality factor $Q$ achieves 10.7\% and 16.1\% impedance bandwidth at 14.3-15.9~GHz and 14.1-16.5~GHz respectively, showing that mode selection and $Q$ spoiling geometry are the primary bandwidth control levers in DRA design \cite{ref51}. Dual band operation spanning both sub 6~GHz and mmWave 5G bands from a single composite DRA an annular low permittivity radiator concentrically integrated with a high permittivity cylindrical DRA achieves a large frequency ratio between the two resonances from a single co planar waveguide feed, illustrating a route to multiband coverage without duplicating hardware \cite{ref52}. Bandwidth extension techniques such as metal ring loading and cavity backed slot feeding have independently pushed measured DRA bandwidth beyond 25\% while lifting peak gain from a baseline of roughly 5~dBi to 7+~dBi, closing part of the gain gap relative to metallic patch arrays. The principal practical drawback remains precision dielectric fabrication achieving tight tolerance on both permittivity and mechanical dimension simultaneously and the mechanical/thermal integration of a bulk ceramic resonator with planar RF circuitry.
+
+
+\section{Reconfigurable Intelligent Surfaces}
+A reconfigurable intelligent surface (RIS) is a planar array of typically hundreds to thousands of passive, sub wavelength unit cells, each capable of imposing an independently controllable phase shift $\varphi_n$ on an incident electromagnetic wave, most commonly through a PIN diode, varactor diode, or liquid crystal element embedded in the unit cell resonator \cite{ref19,ref20,ref41}. By configuring the phase profile so that reflections from all $N$ elements combine coherently at a target receiver, the composite channel gain can, in the idealized far field case, scale as $N^2$ rather than $N$ the theoretical basis for RIS aided coverage extension and virtual LoS creation in obstructed environments \cite{ref21,ref43}.
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{8.png}
+    \caption{Generic RIS-assisted MIMO communication architecture showing the transmitter, reconfigurable intelligent surface, and receiver. Adapted from \cite{ref61}.}
+    \label{fig:ris_mimo}
+\end{figure}
+
+Because a fully continuous analog phase response is costly to implement, most fabricated RIS prototypes quantize the phase to 1 bit ($0^{\circ}$/$180^{\circ}$) or a small number of bits; a comprehensive survey of experimentally reported RIS hardware compiles the following representative operating points: a $20\times20$ element 1-bit PIN diode RIS at 28~GHz achieving 27.9~dBi surface gain over 2~GHz bandwidth; a $20\times20$-element 1 bit PIN-diode RIS at 27.5~GHz achieving 24.7~dB gain over a much wider 7~GHz bandwidth; a $24\times24$-element 1 bit RIS at 10.55~GHz achieving 23.3~dBi gain over 2.4~GHz; and a $20\times20$-element analog phase, liquid crystal tuned RIS at 28~GHz achieving 17.9~dBi gain together spanning sub-6~GHz to mmWave operation with gains from roughly 15-28~dBi depending on element count and phase resolution \cite{ref20}. A separate field deployable prototype using 160 elements at 5.8~GHz was integrated into a live wireless link and demonstrated measurable coverage extension gains under realistic multipath conditions, while a more recent 3 bit resolution RIS at 3.6~GHz using a low cost PCB spring contact feed shows that higher phase resolution (reducing quantization error relative to 1 bit designs) is becoming practical at sub 6~GHz without a large manufacturing cost penalty \cite{ref49,ref50}.
+
+Field trials to date report on the order of 10~dB received-signal-strength improvement from a well optimized RIS deployment in coverage extension scenarios \cite{ref22}. 
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{5.png}
+    \caption{Fabricated 160-element reconfigurable intelligent surface and unit-cell schematic, field-evaluated in a real-world 5.8~GHz wireless link. Reproduced from \cite{ref49}. \emph{}}
+    \label{fig:ris}
+\end{figure}
+
+\section{Metasurface and Holographic MIMO Antennas}
+Metasurfaces consist of two dimensional arrays of engineered sub wavelength scattering elements that impose a spatially varying amplitude and phase response on an incident wave, in effect implementing a generalized form of Snell's law at the surface. Dynamic metasurface antennas (DMAs) exploit this by embedding tunable elements (e.g., varactor loaded slots) along a waveguide feed, so that a single feed can synthesize a large number of controllable radiation patterns without one RF chain per element proposed as a low power alternative to conventional phased arrays for large scale 6G MIMO \cite{ref23,ref42}.
+
+Holographic MIMO surfaces generalize this concept toward an electrically large, quasi continuous radiating aperture conceptually an antenna array with element spacing approaching the sub wavelength (holographic) limit rather than the conventional $\lambda/2$ spacing providing a much larger number of controllable spatial degrees of freedom per unit aperture area than a discrete array of the same physical size, which is the basis of the claimed near field beamfocusing and super directivity gains attributed to holographic MIMO in 6G oriented studies \cite{ref24}. 
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\columnwidth]{9.png}
+    \caption{Conceptual architecture of metasurface-enabled massive MIMO for 6G wireless communication. Adapted from \cite{ref62}.}
+    \label{fig:metasurface_mimo}
+\end{figure}
+
+\section{Fluid Antenna Systems}
+A fluid antenna system (FAS) replaces the conventional approach of adding more fixed radiating elements with a single (or few) radiating element(s) whose effective position can be switched among $N$ predefined ports distributed over a physical aperture of length $W\lambda$, where $\lambda$ is the carrier wavelength. Denoting the channel gain at the $n$-th port as $h_n$, the spatial correlation between ports $m$ and $n$ under isotropic scattering follows a Bessel function model,
+\begin{equation}
+\rho_{m,n} = J_0\!\left(\frac{2\pi |m-n| W}{N-1}\right),
+\label{eq:fas}
+\end{equation}
+so ports separated by less than roughly $\lambda/2$ remain correlated while more widely spaced ports fade nearly independently giving FAS access to spatial diversity from a device volume far smaller than an equivalent fixed multi antenna array \cite{ref32,ref33,ref58}.
+
+Early FAS concepts used liquid metal or micro electromechanical actuation to physically relocate a radiating element, which is mechanically slow; more recent hardware realizes port switching electronically. A pixel based reconfigurable antenna applied to FAS demonstrates high electronic switching speed between ports without any mechanical movement, directly addressing the port switching delay bottleneck that otherwise degrades achievable throughput in high reliability low latency (HRLLC) 6G scenarios \cite{ref55}. At millimetre wave frequencies, a surface wave enabled FAS has been designed and experimentally validated for fluid antenna multiple access, extending the FAS concept beyond sub-6~GHz proof of concept demonstrations into the mmWave regime relevant to 6G access links \cite{ref56}. System level analyses show that even a modest number of ports ($N$ on the order of 10-20) distributed over a $1$-$2\lambda$ aperture can approach the outage performance of a much larger conventional selection combining array, at the cost of the CSI acquisition overhead needed to identify the best port before each transmission \cite{ref57}.
+
+Practical FAS implementation must jointly manage port switching delay (which competes directly against the ultra low latency goals FAS is meant to serve), the channel estimation overhead of acquiring CSI at every candidate port, radiation pattern and gain consistency across ports, and long term reliability of the switching mechanism all of which remain active research problems rather than solved engineering issues.
+
+\section{Antenna-in-Package Technology}
+Antenna in package (AiP) technology co integrates the radiating elements with RFIC dies and interconnects within a single multilayer package substrate (typically organic build up or low temperature co fired ceramic, LTCC), eliminating the long, lossy transmission lines that would otherwise be needed to route RF signals from a separately packaged IC to an off package antenna board. This is particularly consequential above 24~GHz, where a few millimetres of PCB trace can introduce insertion loss exceeding 1~dB/mm \cite{ref25,ref26,ref27}.
+ 
+A widely cited 28~GHz organic AiP module integrates 64 dual polarized antenna elements with four SiGe BiCMOS phased array ICs via flip chip assembly; direct antenna only measurements show over 3~GHz bandwidth and 3~dBi per element gain, while full module level measurements show 54~dBm saturated EIRP, a near ideal 35~dB gain increase from 64 element combining, and beam steering exceeding $\pm40^{\circ}$ without pattern tapering figures that illustrate the multiplicative benefit of coherent array combining once package level integration removes feed line loss \cite{ref54}. A related wideband organic AiP supporting the n257/n258/n261 bands (24.25-29.5~GHz) integrates an $8\times8$ dual polarized array with 5.1~mm element spacing using a magnetoelectric dipole radiator, achieving over 6~GHz bandwidth in a compact $42.5\times42.5\times1.65$~mm form factor suitable for handset integration. At the single element level, a differential fed, dual aperture, quasi end fire 5G mmWave AiP design covering the n257 band (26.5-29.5~GHz) achieves a peak sub-array gain of 8.2~dBi with $10^{\circ}$--$27^{\circ}$ of additional beam tilt toward end fire, useful for edge mounted handset antennas \cite{ref53}. Thermal management of closely stacked RFIC and antenna layers, dielectric and metallization tolerance across the multilayer stack up, and electromagnetic coupling between adjacent package layers remain the principal AiP design constraints.
+
+\section{Comparison of Antenna Technologies}
+Table~\ref{tab:qualitative} first provides a qualitative, technology-level comparison consistent with the categories discussed in Sections~III-XI. Table~\ref{tab:quant} then presents a quantitative, paper level comparison of fifteen specific, peer reviewed antenna designs drawn directly from the technical discussion above, each with its own reference, so that reported gain, bandwidth and frequency figures can be traced to their original source rather than treated as generic category labels.
+
+\begin{table}[!t]
+\caption{Qualitative Comparison of Major Antenna Technologies}
+\label{tab:qualitative}
+\centering
+\begin{tabular}{p{2.1cm}p{1.6cm}p{3.4cm}}
+\hline
+\textbf{Technology} & \textbf{Gain} & \textbf{Major Challenge} \\
+\hline
+Massive MIMO & High (15--22~dBi) & RF-chain complexity, mutual coupling \\
+mmWave Array & Very High (12--22~dBi) & Path loss, phase-shifter loss \\
+Sub-THz / THz & Very High (13--18~dBi) & Molecular absorption, fabrication \\
+Reconfigurable & Moderate (1--8~dBi) & Switching loss, bias-network leakage \\
+DRA & High (5--12~dBi) & Dielectric fabrication tolerance \\
+AiP & High (3--8~dBi/elem.) & Thermal management, layer coupling \\
+RIS & High (15--28~dBi) & Channel estimation, control overhead \\
+Metasurface / Holographic MIMO & High & Fabrication density, calibration \\
+Fluid Antenna & Adaptive & Port-switching delay, CSI overhead \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table*}[!t]
+\caption{Quantitative Comparison of Fifteen Recent Antenna Designs for Beyond-5G/6G (Values as Reported in Cited Sources; --- Denotes Not Reported / Not Applicable)}
+\label{tab:quant}
+\centering
+\scriptsize
+\begin{tabular}{p{0.5cm} p{2.7cm} p{1.5cm} p{1.3cm} p{1.4cm} p{2.4cm} p{1.8cm}}
+\hline
+\textbf{Ref} & \textbf{Technology / Design} & \textbf{Freq.} & \textbf{Gain} & \textbf{Bandwidth} & \textbf{Key Technique} & \textbf{Application} \\
+\hline
+\cite{ref44} & 16-port metamaterial-decoupled massive MIMO & 25.5--29~GHz & 20~dBi & 3.5~GHz & DNG/ENG metamaterial isolation & 5G/6G mmWave base station \\
+\cite{ref45} & 64-element two-pronged-fork array & 37.2~GHz & 21.2~dBi & --- & Planar microstrip array scaling & 5G/6G base station \\
+\cite{ref46} & 4-element dual-array MIMO & 37~GHz & 12.8~dB & --- & Orthogonal $90^{\circ}$ array combination & 5G mmWave terminal \\
+\cite{ref7} & Quad-element sub-6~GHz MIMO & 5G sub-6~GHz & 3.01~dBi & --- & Characteristic-mode isolation ($-38.5$~dB) & 5G sub-6~GHz handset \\
+\cite{ref47} & Fabry--Perot cavity antenna & 300~GHz & 17.7~dBi & 22~GHz & Metallic FSS partial reflector & 6G sub-THz backhaul/access \\
+\cite{ref48} & GCPW-fed SIW planar array & 0.6366~THz & 13.14~dBi & 70~GHz & Metal-fence coupling suppression & 6G THz-band link \\
+\cite{ref59} & 9-band PIN-diode monopole & 1.8--6.5~GHz & 1.2--3.6~dBi & 10.5--28\% & 4-diode multiband switching & 5G sub-6~GHz / IoT \\
+\cite{ref30,ref31}-class & 8-mode tri-band PIN-diode patch & 3--6 \& 27.5--50~GHz & --- & Multiband & 3-diode mid/high-5G switching & Unified sub-6/mmWave 5G-6G \\
+\cite{ref51} & Higher-order-mode DRA & 14.3--16.5~GHz & --- & 10.7--16.1\% & TE$_{\delta 15x}$ mode, $Q$-spoiling cylinder & 5G IoT / D2D \\
+\cite{ref52} & Composite dual-permittivity DRA & Sub-6~GHz + mmWave & --- & Dual-band & Concentric annular + cylindrical DR & Unified sub-6/mmWave 5G \\
+\cite{ref54} & 64-element organic AiP + SiGe ICs & 28~GHz & 54~dBm EIRP & 3+~GHz & Flip-chip AiP, 64-way combining & 5G mmWave base-station module \\
+\cite{ref53} & Differential dual-aperture AiP & 26.5--29.5~GHz & 8.2~dBi & n257 band & Quasi-end-fire beam tilt & 5G mmWave handset AiP \\
+\cite{ref20}-class & $20\times20$, 1-bit PIN-diode RIS & 28~GHz & 27.9~dBi & 2~GHz & 1-bit phase quantization & 6G smart radio environment \\
+\cite{ref50} & Scalable 3-bit RIS & 3.6~GHz & --- & Wideband & Spring-contact PCB unit cell & Sub-6~GHz 5G/6G RIS \\
+\cite{ref55} & Pixel-based reconfigurable FAS & Sub-6~GHz & --- & --- & Electronic high-speed port switching & 6G HRLLC fluid antenna \\
+\hline
+\end{tabular}
+\end{table*}
+
+\section{Challenges and Future Research Directions}
+
+\subsection{Propagation Loss}
+Millimetre wave and THz signals experience path loss governed by $\lambda^2$ in the Friis equation, compounded by atmospheric absorption windows and non line of sight blockage. Future antenna systems must therefore provide both high boresight gain and fast adaptive beam re steering to maintain link margin as user or blockage geometry changes \cite{ref7}.
+
+\subsection{Hardware Complexity}
+Large antenna arrays and RIS surfaces require many RF components, phase control circuits, and bias networks. Reducing RF chain count (via hybrid beamforming or dynamic metasurface antennas) while retaining beamforming gain remains an open system design problem \cite{ref12,ref23}.
+
+\subsection{Energy Efficiency}
+Large arrays and high frequency RF chains consume significant DC power. Passive technologies RIS, metasurfaces, and DRAs are attractive precisely because they shift gain from active RF chains to passive electromagnetic structure, but their control circuitry still draws power that must be minimized as element counts grow into the thousands.
+
+\subsection{Reconfigurability and Control Overhead}
+Reconfigurable antennas, RIS, and fluid antenna systems all provide adaptive operation, but each introduces a control or estimation overhead bias switching transients, RIS channel estimation complexity that scales with element count, and FAS port scanning delay that must be kept below the coherence time of the channel without materially degrading net throughput \cite{ref19,ref32}.
+
+
+\subsection{Integrated 6G Antenna Platforms}
+Future 6G devices and base stations may combine massive MIMO, metasurfaces/RIS, reconfigurable antennas, sub THz operation, and fluid antenna elements within a single platform. Developing such heterogeneous antenna systems while maintaining low cost, low power, and high reliability and while providing a unified control interface across technologies with very different reconfiguration time-scales is a major open research direction.
+
+\section{Conclusion}
+This paper reviewed recent advances in antenna technologies for 6G wireless communication, with a focus on the underlying electromagnetic mechanisms and quantitative, citable performance data. Massive MIMO and millimeter wave antenna arrays provide high spatial capacity and directional transmission through coherent array combining, with reported base station array gains now in the 20-22~dBi range \cite{ref44,ref45}. Reconfigurable antennas provide adaptive frequency, polarization, and radiation characteristics from a single aperture using PIN diode or varactor switching networks. Dielectric resonator antennas provide high radiation efficiency at high frequencies, and antenna in package technology enables compact, low loss integration of antennas with RF circuits, as demonstrated by 54~dBm EIRP from a 64 element 28~GHz AiP module \cite{ref54}.
+
+Reconfigurable intelligent surfaces, dynamic metasurface antennas, holographic MIMO surfaces, and fluid antenna systems represent a newer class of technologies that control the spatial characteristics of the wireless channel itself rather than only the transmitter or receiver aperture. Fabricated RIS prototypes have already demonstrated 15-28~dBi surface gain across sub 6~GHz to mmWave bands \cite{ref20}. Although these technologies offer significant opportunities, challenges related to propagation loss, hardware and control complexity, fabrication tolerance, energy consumption, thermal management, and channel estimation overhead remain unresolved. Future research should focus on AI assisted, highly integrated, wideband, energy efficient, and reconfigurable antenna systems capable of meeting the diverse and simultaneous requirements of 6G wireless networks.
+
+\begin{thebibliography}{59}
+
+\bibitem{ref1} Saad, Walid, Mehdi Bennis, and Mingzhe Chen. "A vision of 6G wireless systems: Applications, trends, technologies, and open research problems." IEEE network 34.3 (2019): 134-142.
+\bibitem{ref2}Khan, Latif U., et al. "6G wireless systems: A vision, architectural elements, and future directions." IEEE access 8 (2020)
+\bibitem{ref3}Tataria, Harsh, et al. "6G wireless systems: Vision, requirements, challenges, insights, and opportunities." Proceedings of the IEEE 109.7 (2021)
+\bibitem{ref35} Dang, Shuping, et al. "What should 6G be?." Nature Electronics 3.1 (2020)
+\bibitem{ref36} Zhang, Zhengquan, et al. "6G wireless networks: Vision, requirements, architecture, and key technologies." IEEE vehicular technology magazine 14.3 (2019)
+\bibitem{ref37} Giordani, Marco, et al. "Toward 6G networks: Use cases and technologies." IEEE communications magazine 58.3 (2020)
+\bibitem{ref6}Rappaport, Theodore S., et al. "Millimeter wave mobile communications for 5G cellular: It will work!." IEEE access 1 (2013)
+\bibitem{ref7}Rappaport, Theodore S., et al. "Wireless communications and applications above 100 GHz: Opportunities and challenges for 6G and beyond." IEEE access 7 (2019)
+\bibitem{ref41} Y. Liu et al., ``Reconfigurable intelligent surfaces: Principles and opportunities for 6G,'' \emph{IEEE Commun. Surv. Tuts.}, vol. 24, no. 1, pp. 1--38, 2022.
+\bibitem{ref42} B. Di et al., ``Beyond intelligent reflecting surfaces: Reconfigurable meta-surfaces for 6G,'' \emph{IEEE Wireless Commun.}, vol. 28, no. 4, pp. 1--8, 2021.
+\bibitem{ref43} P. Wang et al., ``Intelligent reflecting surface aided wireless communications: A tutorial,'' \emph{IEEE Wireless Commun.}, vol. 28, no. 4, pp. 1--9, 2021.
+\bibitem{ref15}Akyildiz, Ian F., Josep Miquel Jornet, and Chong Han. "Terahertz band: Next frontier for wireless communications." Physical communication 12 (2014)
+\bibitem{ref17} Jornet, Josep Miquel, and Ian F. Akyildiz. "Channel modeling and capacity analysis for electromagnetic wireless nanonetworks in the terahertz band." IEEE Transactions on Wireless Communications 10.10 (2011)
+\bibitem{ref8}Marzetta, Thomas L. "Noncooperative cellular wireless with unlimited numbers of base station antennas." IEEE transactions on wireless communications 9.11 (2010)
+\bibitem{ref9}Larsson, Erik G., et al. "Massive MIMO for next generation wireless systems." IEEE communications magazine 52.2 (2014)
+\bibitem{ref10}Rusek, Fredrik, et al. "Scaling up MIMO: Opportunities and challenges with very large arrays." IEEE signal processing magazine 30.1 (2012)
+\bibitem{ref11}Ngo, Hien Quoc, Erik G. Larsson, and Thomas L. Marzetta. "Energy and spectral efficiency of very large multiuser MIMO systems." IEEE Transactions on Communications 61.4 (2013)
+\bibitem{ref12}Sun, Shu, and Theodore S. Rappaport. "Multi-beam antenna combining for 28 GHz cellular link improvement in urban environments." 2013 IEEE Global Communications Conference (GLOBECOM). IEEE, 2013
+\bibitem{ref13}Heath, Robert W., et al. "An overview of signal processing techniques for millimeter wave MIMO systems." IEEE journal of selected topics in signal processing 10.3 (2016)
+\bibitem{ref44} A. A. Musaed, S. S. Al-Bawri, W. M. Abdulkawi, K. Aljaloud, Z. Yusoff, and M. T. Islam, ``High isolation 16-port massive MIMO antenna based negative index metamaterial for 5G mm-wave applications,'' \emph{Sci. Rep.}, vol. 14, art. 1, 2024.
+\bibitem{ref45} D. A. Sehrai, J. Khan, M. Abdullah, M. Asif, M. Alibakhshikenari, B. Virdee, W. A. Shah, S. Khan, M. Ibrar, S. Jan, A. Ullah, and F. Falcone, ``Design of high gain base station antenna array for mm-wave cellular communication systems,'' \emph{Sci. Rep.}, vol. 13, art. 4907, 2023.
+\bibitem{ref14}Kutty, Shajahan, and Debarati Sen. "Beamforming for millimeter wave communications: An inclusive survey." IEEE communications surveys and tutorials 18.2 (2015)
+\bibitem{ref46} J. Khan, S. Ullah, U. Ali, F. A. Tahir, I. Peter, and L. Matekovits, ``Design of a millimeter-wave MIMO antenna array for 5G communication terminals,'' \emph{Sensors}, vol. 22, no. 7, p. 2768, 2022.
+\bibitem{ref16}Akyildiz, Ian F., Chong Han, and Shuai Nie. "Combating the distance problem in the millimeter wave and terahertz frequency bands." IEEE Communications Magazine 56.6 (2018)
+\bibitem{ref38} Saqib, Najam Us, et al. "THz communications: A key enabler for future cellular networks." IEEE Access 11 (2023)
+\bibitem{ref39} Siddiky, Md Nurul Absar, et al. "A comprehensive exploration of 6G wireless communication technologies." Computers 14.1 (2025)
+\bibitem{ref40} Singh, Arjun, et al. "Near-field terahertz communications for 6G and beyond: From concepts to realizations." IEEE Signal Processing Magazine 42.1 (2025)
+\bibitem{ref18}Han, Chong, A. Ozan Bicen, and Ian F. Akyildiz. "Multi-wideband waveform design for distance-adaptive wireless communications in the terahertz band." IEEE Transactions on Signal Processing 64.4 (2015)
+\bibitem{ref47} B. Aqlan, M. Himdi, H. Vettikalladi, and L. Le-Coq, ``A 300-GHz low-cost high-gain fully metallic Fabry--Perot cavity antenna for 6G terahertz wireless communications,'' \emph{Sci. Rep.}, vol. 11, art. 8261, 2021.
+\bibitem{ref48} X. Ji, Y. Chen, J. Li, D. Wang, Y. Zhao, Q. Wu, and M. Li, ``Design of high-gain antenna arrays for terahertz applications,'' \emph{Micromachines}, vol. 15, no. 3, p. 407, 2024.
+\bibitem{ref30}Manda, Vijaya Kittu, Bhukya Madhu, and Theodore Tarnanidis. "Proximal Policy Optimization in 5G, B5G, and 6G Communication Systems: A Systematic Review." Future Internet 18.7 (2026)
+\bibitem{ref31} Deshpande, A. Y., et al. "A Comprehensive Review on Frequency Reconfigurable Antennas for 4G, 5G and sub-6 GHz Systems with Emerging Techniques." Journal of Electronics and Electrical Engineering (2026)
+\bibitem{ref59} H. Dildar, F. Althobiani, I. Ahmad, W. U. R. Khan, S. Ullah, N. Mufti, S. Ullah, F. Muhammad, M. Irfan, and A. Glowacz, ``Design and experimental analysis of multiband frequency reconfigurable antenna for 5G and sub-6 GHz wireless communication,'' \emph{Micromachines}, vol. 12, no. 1, p. 32, 2021.
+\bibitem{ref28} O. O. Adejumo et al., ``Dielectric resonator antennas for 5G and beyond wireless communications,'' \emph{IEEE Access}, vol. 11, pp. 100000--100015, 2023.
+\bibitem{ref29} O. O. Adejumo et al., ``Recent advances in dielectric resonator antennas for wireless communications,'' \emph{IEEE Access}, vol. 13, pp. 1--18, 2025.
+\bibitem{ref51} I. Ali, M. H. Jamaluddin, A. Gaya, and H. A. Rahim, ``A dielectric resonator antenna with enhanced gain and bandwidth for 5G applications,'' \emph{Sensors}, vol. 20, no. 3, p. 675, 2020.
+\bibitem{ref52} Asadullah, M. U. Khan, A. Muhammad, M. S. Sharawi, and M. Alathbah, ``Singly-fed large frequency ratio composite dielectric resonator antenna for sub-6 GHz and mm-wave 5G applications,'' \emph{IEEE Access}, vol. 12, pp. 67837--67846, 2024.
+\bibitem{ref19} Wu, Qingqing, and Rui Zhang. "Intelligent reflecting surface enhanced wireless network: Joint active and passive beamforming design." 2018 IEEE global communications conference (GLOBECOM). IEEE, 2018.
+\bibitem{ref20} Basar, Ertugrul, et al. "Wireless communications through reconfigurable intelligent surfaces." IEEE access 7 (2019)
+\bibitem{ref21} Wu, Qingqing, and Rui Zhang. "Towards smart and reconfigurable environment: Intelligent reflecting surface aided wireless network." IEEE communications magazine 58.1 (2019)
+\bibitem{ref49} Trichopoulos, Georgios C., et al. "Design and evaluation of reconfigurable intelligent surfaces in real-world environment." IEEE Open Journal of the Communications Society 3 (2022)
+\bibitem{ref50} Heinrichs, Markus, Aydin Sezgin, and Rainer Kronberger. "A Scalable Reconfigurable Intelligent Surface with 3 Bit Phase Resolution and High Bandwidth for 3.6 GHz 5G/6G Applications." arXiv preprint arXiv:2602.17877 (2026)
+\bibitem{ref23} Shlezinger, Nir, et al. "Dynamic metasurface antennas for 6G extreme massive MIMO communications." IEEE Wireless Communications 28.2 (2021)
+\bibitem{ref24}Huang, Chongwen, et al. "Holographic MIMO surfaces for 6G wireless networks: Opportunities, challenges, and trends." IEEE wireless communications 27.5 (2020)
+\bibitem{ref32} Zheng, Dongze, et al. "Emerging leaky-wave antenna technologies and systems." IEICE Transactions on Communications (2026)
+\bibitem{ref33}Bepari, Dipen, et al. "Fluid antennas: Pioneering a new era in next-generation wireless communications." IEEE Communications Surveys and Tutorials 28 (2026)
+\bibitem{ref58} Wong, Kai‐Kit, et al. "Fluid antenna system for 6G: When Bruce Lee inspires wireless communications." Electronics Letters 56.24 (2020)
+\bibitem{ref55} Zhang, Jichen, et al. "A novel pixel-based reconfigurable antenna applied in fluid antenna systems with high switching speed." IEEE Open Journal of Antennas and Propagation 6.1 (2024)
+\bibitem{ref56}Shen, Yuanjun, et al. "Design and implementation of mmWave surface wave enabled fluid antennas and experimental results for fluid antenna multiple access." arXiv preprint arXiv:2405.09663 (2024)
+\bibitem{ref57} New, Wee Kiat, et al. "A tutorial on fluid antenna system for 6G networks: Encompassing communication theory, optimization methods and hardware designs." IEEE Communications Surveys and Tutorials 27.4 (2024)
+\bibitem{ref54}Valdes-Garcia, Alberto, et al. "Circuit and antenna-in-package innovations for scaled mmWave 5G phased array modules." 2018 IEEE Custom Integrated Circuits Conference (CICC). IEEE, 2018.
+\bibitem{ref53} Magray, M. Idrees, Saou-Wen Su, and Jenn-Hwan Tarng. "Differential-fed, dual-aperture based, quasi-end-fire 5G mmWave antenna-in-package design." IEEE Access 10 (2022)
+
+\bibitem{ref4} Jiang, Wei, et al. "The road towards 6G: A comprehensive survey." IEEE Open Journal of the Communications Society 2 (2021)
+\bibitem{ref5}Dang, Shuping, et al. "What should 6G be?." Nature Electronics 3.1 (2020)
+\bibitem{ref25} Y. P. Zhang, ``Integrated antenna design for wireless communication systems,'' \emph{IEEE Trans. Antennas Propag.}, vol. 57, no. 10, pp. 3175--3184, 2009.
+\bibitem{ref26} A. Watanabe et al., ``Antenna-in-package technology for millimeter-wave wireless communications,'' \emph{IEEE Trans. Antennas Propag.}, vol. 69, no. 10, pp. 6500--6512, 2021.
+\bibitem{ref27}Lee, Seung Yoon, et al. "History and the latest progress in antenna packaging technology: Part 1: Multilayer solutions." IEEE Antennas and Propagation Magazine 67.3 (2025)
+\bibitem{ref34}Tataria, Harsh, et al. "6G wireless systems: Vision, requirements, challenges, insights, and opportunities." arXiv preprint arXiv:2008.03213 (2020)
+\bibitem{ref60}Li & Lu, “Research Progress on 6G Communication Antenna Technology,” Electronics, (2026)
+\bibitem{ref61}Qamar et al., “Multi-Antenna Array-Based Massive MIMO for B5G/6G: State of the Art, Challenges, and Future Research Directions,” Information, 2024
+\bibitem{ref62}Huo et al., “Technology Trends for Massive MIMO towards 6G,” Sensors, 2023.
+
+\end{thebibliography}
+
+\end{document}
